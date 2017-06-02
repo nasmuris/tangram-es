@@ -283,7 +283,7 @@ SceneID Map::applySceneUpdates() {
 
         if (impl->nextScene) {
             // Changes are automatically applied once the scene is loaded
-            return nextScene->id;
+            return impl->nextScene->id;
         }
         LOG("Applying %d scene updates", impl->sceneUpdates.size());
 
