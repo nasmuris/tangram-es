@@ -27,9 +27,15 @@ static std::atomic<int32_t> s_serial;
 
 Scene::Scene(std::shared_ptr<const Platform> _platform, const std::string& _path)
     : id(s_serial++),
-      m_path(_path),
       m_fontContext(std::make_shared<FontContext>(_platform)),
       m_featureSelection(std::make_unique<FeatureSelection>()) {
+
+    // Url path(_path);
+    // if (path.hasHttpScheme()) {
+    //     m_resourceRoot = "";
+    //     m_path = _path;
+    // } else {
+    // }
 
     std::regex r("^(http|https):/");
     std::smatch match;
@@ -58,6 +64,19 @@ Scene::Scene(std::shared_ptr<const Platform> _platform, const std::string& _path
     m_mapProjection.reset(new MercatorProjection());
 }
 
+Scene::Scene(std::shared_ptr<const Platform> _platform, const std::string& _yaml, const std::string& _resourceRoot)
+    : id(s_serial++),
+      m_fontContext(std::make_shared<FontContext>(_platform)),
+      m_featureSelection(std::make_unique<FeatureSelection>()) {
+
+    m_resourceRoot = _resourceRoot;
+    m_yaml = _yaml;
+
+    m_fontContext->setSceneResourceRoot(m_resourceRoot);
+
+    m_mapProjection.reset(new MercatorProjection());
+}
+
 Scene::Scene(const Scene& _other)
     : id(s_serial++),
       m_featureSelection(std::make_unique<FeatureSelection>()) {
@@ -66,6 +85,7 @@ Scene::Scene(const Scene& _other)
     m_fontContext = _other.m_fontContext;
 
     m_path = _other.m_path;
+    m_yaml = _other.m_yaml;
     m_resourceRoot = _other.m_resourceRoot;
 
     m_globalRefs = _other.m_globalRefs;

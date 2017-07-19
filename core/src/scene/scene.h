@@ -68,6 +68,7 @@ public:
     };
 
     Scene(std::shared_ptr<const Platform> _platform, const std::string& _path = "");
+    Scene(std::shared_ptr<const Platform> _platform, const std::string& _yaml, const std::string& _resourceRoot);
     Scene(const Scene& _other);
     ~Scene();
 
@@ -92,6 +93,7 @@ public:
     Style* findStyle(const std::string& _name);
 
     const auto& path() const { return m_path; }
+    const auto& yaml() { return m_yaml; }
     const auto& resourceRoot() const { return m_resourceRoot; }
     const auto& config() const { return m_config; }
     const auto& tileSources() const { return m_tileSources; };
@@ -147,6 +149,8 @@ private:
 
     // The file path from which this scene was loaded
     std::string m_path;
+
+    std::string m_yaml;
 
     std::string m_resourceRoot;
 
