@@ -19,11 +19,15 @@ Node Importer::applySceneImports(const std::shared_ptr<Platform>& platform,
     const Url& scenePath = scene->path();
     const Url& resourceRoot = scene->resourceRoot();
 
-    Url rootScenePath = scenePath.resolved(resourceRoot);
+    Url rootScenePath;
 
-    if (!scene->yaml().empty()) {
+    if (scenePath.isEmpty()) {
+        // Load scene from yaml string
+        rootScenePath = resourceRoot;
         processScene(platform, scene, rootScenePath, scene->yaml());
     } else {
+        // Load scene from yaml file
+        rootScenePath = scenePath.resolved(resourceRoot);
         scene->createSceneAsset(platform, rootScenePath, Url(""), Url(""));
         m_sceneQueue.push_back(rootScenePath);
     }
