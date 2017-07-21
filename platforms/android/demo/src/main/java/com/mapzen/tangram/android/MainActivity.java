@@ -14,7 +14,6 @@ import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapController.FeaturePickListener;
 import com.mapzen.tangram.MapController.LabelPickListener;
 import com.mapzen.tangram.MapController.MarkerPickListener;
-import com.mapzen.tangram.MapController.SceneUpdateErrorListener;
 import com.mapzen.tangram.MapController.ViewCompleteListener;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.MapView;
@@ -22,7 +21,6 @@ import com.mapzen.tangram.MapView.OnMapReadyCallback;
 import com.mapzen.tangram.Marker;
 import com.mapzen.tangram.MarkerPickResult;
 import com.mapzen.tangram.SceneUpdate;
-import com.mapzen.tangram.SceneUpdateError;
 import com.mapzen.tangram.TouchInput.DoubleTapResponder;
 import com.mapzen.tangram.TouchInput.LongPressResponder;
 import com.mapzen.tangram.TouchInput.TapResponder;
@@ -35,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, TapResponder,
-        DoubleTapResponder, LongPressResponder, FeaturePickListener, LabelPickListener, MarkerPickListener, SceneUpdateErrorListener {
+        DoubleTapResponder, LongPressResponder, FeaturePickListener, LabelPickListener, MarkerPickListener {
 
     private static final String MAPZEN_API_KEY = BuildConfig.MAPZEN_API_KEY;
 
@@ -136,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         map.setFeaturePickListener(this);
         map.setLabelPickListener(this);
         map.setMarkerPickListener(this);
-        map.setSceneUpdateErrorListener(this);
 
         map.setViewCompleteListener(new ViewCompleteListener() {
                 public void onViewComplete() {
@@ -254,13 +251,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d("Tangram", "Picked marker: " + markerPickResult.getMarker().getMarkerId());
         final String message = String.valueOf(markerPickResult.getMarker().getMarkerId());
         Toast.makeText(getApplicationContext(), "Selected Marker: " + message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSceneUpdateError(SceneUpdateError sceneUpdateError) {
-        Log.d("Tangram", "Scene update errors "
-                + sceneUpdateError.getSceneUpdate().toString()
-                + " " + sceneUpdateError.getError().toString());
     }
 }
 
